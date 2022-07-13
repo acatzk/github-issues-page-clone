@@ -1,26 +1,25 @@
 import React from 'react'
-import { issues } from '~/mock/issues'
-import { classNames } from '~/utils/classNames'
 import IssueItem from './IssueItem'
-import Pagination from './Pagination'
+import { classNames } from '~/utils/classNames'
 
 interface Props {
-  issues: unknown
+  issues: any
 }
 
 const IssueList: React.FC<Props> = (props) => {
+  const { issues } = props
+
   return (
-    <div className="mt-2 mb-24">
+    <div className="mt-2">
       <ul
         className={classNames(
           'bg-gray-50 rounded-md border border-gray-200 text-gray-900 text-sm font-medium divide-y'
         )}
       >
-        {issues?.map((issue, i) => (
+        {issues?.map((issue: string[], i: number) => (
           <IssueItem key={i} issue={issue} />
         ))}
       </ul>
-      <Pagination />
     </div>
   )
 }

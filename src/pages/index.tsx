@@ -1,8 +1,10 @@
 import useSWR from 'swr'
+import { useState } from 'react'
 import Layout from '~/layouts/Layout'
-import { issues } from '~/mock/issues'
 import Button from '~/components/Button'
+import ReactPaginate from 'react-paginate'
 import IssueList from '~/components/IssueList'
+import { classNames } from '~/utils/classNames'
 import type { GetStaticProps, NextPage } from 'next'
 
 interface Props {
@@ -31,6 +33,20 @@ const Index: NextPage<Props> = (props) => {
     }
   )
 
+  const [issues, setIssues] = useState(data?.slice(0, 50))
+  const [pageNumber, setPageNumber] = useState(0)
+
+  const issuePerPage = 10
+  const pagesVisited = pageNumber * issuePerPage
+
+  const displayIssues = issues?.slice(pagesVisited, pagesVisited + issuePerPage)
+
+  const pageCount = Math.ceil(issues?.length / issuePerPage)
+
+  const changePage = ({ selected }: { selected: number }): void => {
+    setPageNumber(selected)
+  }
+
   return (
     <Layout>
       <section className="max-w-6xl mx-auto">
@@ -40,9 +56,30 @@ const Index: NextPage<Props> = (props) => {
             <Button>Open issues</Button>
             <Button> Closed issues</Button>
           </div>
-          
-          {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
-          <IssueList issues={data} />
+
+          <IssueList issues={displayIssues} />
+          <div className="mt-6 flex items-center justify-center w-full">
+            <ReactPaginate 
+              previousLabel="Previous"
+              nextLabel="Next"
+              pageCount={pageCount}
+              onPageChange={changePage}
+              containerClassName="inline-flex -space-x-px"
+              previousLinkClassName={classNames(
+                'bg-white border py-2 px-3 rounded-l-lg hover:bg-gray-100',
+                'transition ease-in-out duration-150 active:bg-gray-200'
+              )}
+              pageLinkClassName={classNames(
+                'bg-white border py-2 px-3 hover:bg-gray-100',
+                'transition ease-in-out duration-150 active:bg-gray-200'
+              )}
+              activeClassName="text-blue-500 bg-yellow-500"
+              nextLinkClassName={classNames(
+                'bg-white border py-2 px-3 rounded-r-lg hover:bg-gray-100',
+                'transition ease-in-out duration-150 active:bg-gray-200'
+              )}
+            />
+          </div>
         </div>
       </section>
     </Layout>
