@@ -15,7 +15,7 @@ const Layout: React.FC<Props> = (props) => {
         <title>GitHub Issue Page Clone</title>
       </Head>
       <Header />
-      <main className='antialiased font-inter bg-white text-black min-h-screen'>{children}</main>
+      <main className="antialiased font-inter bg-white text-black min-h-screen px-4">{children}</main>
       <Footer />
     </React.Fragment>
   )

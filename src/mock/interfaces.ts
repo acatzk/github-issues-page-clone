@@ -20,7 +20,7 @@ export interface Issue {
     followers_url: string
     following_url: string
     gists_url: string
-    starred_ur: string
+    starred_url: string
     subscriptions_url: string
     organizations_url: string
     repos_url: string
@@ -28,8 +28,8 @@ export interface Issue {
     received_events_url: string
     type: string
     site_admin: boolean
-  },
-  labels: [
+  }
+  labels?: [
     {
       id: number
       node_id: string
@@ -39,13 +39,13 @@ export interface Issue {
       default: boolean
       description?: string
     }
-  ],
+  ]
   state: string
   locked: boolean
   assignee: null
   assignees: []
   milestone: null
-  comments: 2
+  comments: number
   created_at: string
   updated_at: string
   closed_at: null
@@ -53,17 +53,17 @@ export interface Issue {
   active_lock_reason: null
   body: string
   reactions: {
-    url: string,
+    url: string
     total_count: number
-    "+1": number
-    "-1": number
+    '+1': number
+    '-1': number
     laugh: number
     hooray: number
     confused: number
     heart: number
     rocket: number
     eyes: number
-  },
+  }
   timeline_url: string
   performed_via_github_app: null
   state_reason: null

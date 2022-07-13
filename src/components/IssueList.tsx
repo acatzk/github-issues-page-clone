@@ -5,17 +5,21 @@ import IssueItem from './IssueItem'
 import Pagination from './Pagination'
 
 interface Props {
-  issues: any
+  issues: unknown
 }
 
 const IssueList: React.FC<Props> = (props) => {
   return (
     <div className="mt-2 mb-24">
-      <div className={classNames(
-        'bg-gray-50 rounded-md border border-gray-200 text-gray-900 text-sm font-medium divide-y'
-      )}>
-        {issues?.map((issue, i) => <IssueItem key={i} issue={issue} />)}
-      </div>
+      <ul
+        className={classNames(
+          'bg-gray-50 rounded-md border border-gray-200 text-gray-900 text-sm font-medium divide-y'
+        )}
+      >
+        {issues?.map((issue, i) => (
+          <IssueItem key={i} issue={issue} />
+        ))}
+      </ul>
       <Pagination />
     </div>
   )
