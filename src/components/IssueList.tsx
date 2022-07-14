@@ -4,10 +4,11 @@ import { classNames } from '~/utils/classNames'
 
 interface Props {
   issues: any
+  loading: boolean
 }
 
 const IssueList: React.FC<Props> = (props) => {
-  const { issues } = props
+  const { issues, loading } = props
 
   return (
     <div className="mt-2">
@@ -16,9 +17,16 @@ const IssueList: React.FC<Props> = (props) => {
           'bg-gray-50 rounded-md border border-gray-200 text-gray-900 text-sm font-medium divide-y'
         )}
       >
-        {issues?.map((issue: string[], i: number) => (
-          <IssueItem key={i} issue={issue} />
-        ))}
+        {loading ? (
+          <div className='flex items-center justify-center py-2 min-h-[20vh]'>
+            Loading...
+          </div>
+        ) : (
+          issues?.map((issue: string[], i: number) => (
+            <IssueItem key={i} issue={issue} />
+          ))
+        )}
+        
       </ul>
     </div>
   )

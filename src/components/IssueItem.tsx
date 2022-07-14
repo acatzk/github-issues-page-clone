@@ -1,6 +1,6 @@
 import React from 'react'
 import { BiComment } from 'react-icons/bi'
-import { IsOpenIcon } from '~/utils/Icons'
+import { IsCloseIcon, IsOpenIcon } from '~/utils/Icons'
 import { classNames } from '~/utils/classNames'
 import moment from 'moment'
 
@@ -24,10 +24,14 @@ const IssueItem: React.FC<IssueProps> = (props) => {
         'transition ease-in-out duration-150'
       )}
     >
-      <div className='flex items-center justify-between px-4'>
+      <div className="flex items-center justify-between px-4">
         <div className="flex items-center space-x-2">
           <div className="flex-shrink-0">
-            <IsOpenIcon className="text-green-500 fill-current" />
+            {issue?.state === 'open' ? (
+              <IsOpenIcon className="text-green-500 fill-current" />
+            ) : (
+              <IsCloseIcon className="text-indigo-500 fill-current" />
+            )}
           </div>
           <a
             href="#"
@@ -38,7 +42,7 @@ const IssueItem: React.FC<IssueProps> = (props) => {
           >
             {issue?.title}
           </a>
-          {issue.labels.map(({ id, name, color }: Label) => (
+          {issue.labels?.map(({ id, name, color }: Label) => (
             <span
               key={id}
               className={classNames(
