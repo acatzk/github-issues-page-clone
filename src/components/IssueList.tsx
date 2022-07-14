@@ -18,15 +18,10 @@ const IssueList: React.FC<Props> = (props) => {
         )}
       >
         {loading ? (
-          <div className='flex items-center justify-center py-2 min-h-[20vh]'>
-            Loading...
-          </div>
+          <div className="flex items-center justify-center py-2 min-h-[20vh]">Loading...</div>
         ) : (
-          issues?.map((issue: string[], i: number) => (
-            <IssueItem key={i} issue={issue} />
-          ))
+          issues?.map((issue: string[], i: number) => <IssueItem key={i} issue={issue} />)
         )}
-        
       </ul>
     </div>
   )

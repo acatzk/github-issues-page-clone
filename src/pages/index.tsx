@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import IssueList from '~/components/IssueList'
 import { classNames } from '~/utils/classNames'
 import Button from '~/components/Button'
+import axios from 'axios'
 
 interface Props {
   prefetchedData?: any
@@ -17,6 +18,7 @@ export const getStaticProps: GetStaticProps = async () => {
     owner: 'vue',
     repo: 'vuejs'
   })
+  // const res = await axios.get(`https://api.github.com/repos/vuejs/vue/issues?state=all`)
   const prefetchedData = await res.data
 
   return {
@@ -51,16 +53,17 @@ const Index: NextPage<Props> = (props) => {
   useEffect(() => {
     const fetchIssuePosts = async () => {
       setLoading(true)
-        const res = await octokit.request(`GET /repos/vuejs/vue/issues?state=${state}`, {
-          owner: 'vue',
-          repo: 'vuejs'
-        })
-        setIssuePosts(res?.data)
-        setLoading(false)
-    } 
+      const res = await octokit.request(`GET /repos/vuejs/vue/issues?state=${state}`, {
+        owner: 'vue',
+        repo: 'vuejs'
+      })
+      // const res = await axios.get(`https://api.github.com/repos/vuejs/vue/issues?state=${state}`)
+      setIssuePosts(res?.data)
+      setLoading(false)
+    }
 
     fetchIssuePosts()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
 
   return (
@@ -68,30 +71,46 @@ const Index: NextPage<Props> = (props) => {
       <section className="max-w-6xl mx-auto">
         <div className="mt-6">
           <div className="flex items-center space-x-2">
-            <Button 
+            <Button
               onClick={() => router.push('?state=all')}
-              className={state === 'all' && router.pathname === '/' ? 
-              'bg-blue-500 focus:bg-blue-500 text-white active:bg-gray-300' : 
-              'focus:bg-gray-200 hover:bg-gray-200 hover:border-gray-300'}
-            >All</Button>
-            <Button 
+              className={
+                state === 'all' && router.pathname === '/'
+                  ? 'bg-blue-500 focus:bg-blue-500 text-white active:bg-gray-300'
+                  : 'focus:bg-gray-200 hover:bg-gray-200 hover:border-gray-300'
+              }
+            >
+              All
+            </Button>
+            <Button
               onClick={() => router.push('?state=open')}
-              className={state === 'open' ? 'bg-blue-500 focus:bg-blue-500 text-white ' : 
-              'active:bg-gray-300 focus:bg-gray-200 hover:bg-gray-200 hover:border-gray-300'}
-            >Open issues</Button>
-            <Button 
+              className={
+                state === 'open'
+                  ? 'bg-blue-500 focus:bg-blue-500 text-white '
+                  : 'active:bg-gray-300 focus:bg-gray-200 hover:bg-gray-200 hover:border-gray-300'
+              }
+            >
+              Open issues
+            </Button>
+            <Button
               onClick={() => router.push('?state=closed')}
-              className={state === 'closed' ? 'bg-blue-500 focus:bg-blue-500 text-white ' : 
-              'active:bg-gray-300 focus:bg-gray-200 hover:bg-gray-200 hover:border-gray-300'}
-            >Closed issues</Button>
+              className={
+                state === 'closed'
+                  ? 'bg-blue-500 focus:bg-blue-500 text-white '
+                  : 'active:bg-gray-300 focus:bg-gray-200 hover:bg-gray-200 hover:border-gray-300'
+              }
+            >
+              Closed issues
+            </Button>
           </div>
-           
-           {/* <pre>{JSON.stringify(prefetchedData, null, 2)}</pre> */}
+
+          {/* <button onClick={}></button> */}
+
+          {/* <pre>{JSON.stringify(prefetchedData, null, 2)}</pre> */}
           <IssueList issues={displayIssues} loading={loading} />
 
           {!loading && (
             <div className="mt-6 flex items-center justify-center w-full">
-              <ReactPaginate 
+              <ReactPaginate
                 previousLabel="Previous"
                 nextLabel="Next"
                 pageCount={pageCount}

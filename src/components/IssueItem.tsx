@@ -1,8 +1,8 @@
 import React from 'react'
-import { BiComment } from 'react-icons/bi'
-import { IsCloseIcon, IsOpenIcon } from '~/utils/Icons'
-import { classNames } from '~/utils/classNames'
 import moment from 'moment'
+import { BiComment } from 'react-icons/bi'
+import { classNames } from '~/utils/classNames'
+import { IsCloseIcon, IsOpenIcon } from '~/utils/Icons'
 
 interface IssueProps {
   issue: any
@@ -46,9 +46,9 @@ const IssueItem: React.FC<IssueProps> = (props) => {
             <span
               key={id}
               className={classNames(
-                `px-2 text-white rounded-full text-xs font-light border`,
-                `flex-shrink-0 bg-[#${color}]`
+                'px-2 text-white rounded-full text-xs font-light border flex-shrink-0'
               )}
+              style={{ backgroundColor: `#${color}` }}
             >
               {name}
             </span>
@@ -61,7 +61,8 @@ const IssueItem: React.FC<IssueProps> = (props) => {
       </div>
       <div className="ml-10">
         <span className="text-xs font-normal text-gray-500">
-          #{issue?.number} open {moment(issue?.created_at, 'YYYYMMDD').fromNow()} by
+          #{issue?.number} {issue?.state === 'open' ? 'opened ' : 'closed '} 
+          {moment(issue?.created_at, 'YYYYMMDD').fromNow()} by
           <a href="#" className="ml-0.5 hover:text-blue-500">
             {issue?.user?.login}
           </a>
